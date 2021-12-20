@@ -10,7 +10,7 @@ public class StateMachineException extends RuntimeException {
     protected final Context<?, ?> ctx;
     protected String originalMessage;
 
-    protected StateMachineException(String message, Context<?, ?> ctx) {
+    public StateMachineException(String message, Context<?, ?> ctx) {
         // TODO: Needed? If someone wants the position they can get with getPosition()
         super(message + (ctx.currentPosition() >= 0 ? " at position " + ctx.currentPosition() : ""));
         this.ctx = ctx;

@@ -13,7 +13,7 @@ public class StateMachineBuilder<T, R> {
 
     private Map<String, State<T, R>> states = new HashMap<>();
     private String initialState;
-    private ContextInitializer<T, R> contextInitializer;
+    private ContextInitializer<T, R> contextInitializer = ctx -> {};
 
     // Default MatcherWrapper just checks object equality (via .equals())
     private MatcherWrapper<T, R> matcherWrapper = m -> (ctx) -> ctx.currentItem().equals(m);

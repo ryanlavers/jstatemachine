@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 /**
@@ -41,6 +42,22 @@ public interface TokenStream<T> {
             }
             else {
                 return;
+            }
+        }
+    }
+
+    /**
+     * Performs a reduction operation over the values of this stream.
+     */
+    default <R> R reduce(R initialValue, BiFunction<R, T, R> accumulator) {
+        R acc = initialValue;
+        while(true) {
+            Optional<T> item = next();
+            if(item.isPresent()) {
+                acc = accumulator.apply(acc, item.get());
+            }
+            else {
+                return acc;
             }
         }
     }

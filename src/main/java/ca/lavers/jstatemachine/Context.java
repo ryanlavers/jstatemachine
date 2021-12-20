@@ -145,6 +145,16 @@ public class Context<T, R> {
     }
 
     /**
+     * Removes a context attribute by name, if it exists.
+     *
+     * @param key The name of the attribute to remove
+     * @return The previous value of the removed attribute; or null if one did not exist
+     */
+    public Object remove(String key) {
+        return attributes.remove(key);
+    }
+
+    /**
      * Called internally to indicate that processing has failed with the given error
      */
     void setError(StateMachineException e) {
