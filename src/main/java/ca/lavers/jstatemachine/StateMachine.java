@@ -94,7 +94,7 @@ public class StateMachine<T, R> {
         ctx.incrementPosition();
         State<T, R> state = states.get(ctx.currentState());
         try {
-            for (Action<T, R> action : state.actionsFor(ctx)) {
+            for (Action<T, R> action : state.actionsFor(ctx)) {  // TODO -- state is null if a non-existent one specified
                 action.execute(ctx);
             }
         } catch(StateMachineException e) {

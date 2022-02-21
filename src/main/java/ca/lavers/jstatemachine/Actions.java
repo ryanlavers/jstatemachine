@@ -1,5 +1,8 @@
 package ca.lavers.jstatemachine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A collection of built-in actions for {@link StateMachine}s.
  */
@@ -30,6 +33,28 @@ public class Actions {
     public static <T, R> Action<T, R> error(String message) {
         return ctx -> {
             throw new StateMachineException(message, ctx);
+        };
+    }
+
+    public static <T, R> Action<T, R> call(String state) {
+        return ctx -> {
+            List<String> callstack = ctx.get("callstack", List.class);
+            if(callstack == null) {
+                callstack = new ArrayList<>();
+                ctx.put("callstack", callstack);
+            }
+            callstack.add(ctx.currentState());
+            ctx.setCurrentState(state);
+        };
+    }
+
+    public static <T, R> Action<T, R> ret() {
+        return ctx -> {
+            List<String> callstack = ctx.get("callstack", List.class);
+            if (callstack == null || callstack.isEmpty()) {
+                throw new StateMachineException("Cannot return; missing or empty callstack", ctx);
+            }
+            ctx.setCurrentState(callstack.remove(callstack.size() - 1));
         };
     }
 }
